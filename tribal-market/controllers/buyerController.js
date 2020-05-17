@@ -106,19 +106,11 @@ Client.updateOne({username:req.body.username,pass:req.body.pass, logged:1},
  };
 
  //place an order
-exports.place_order = function(req, res){
+ exports.place_order = function(req, res){
     console.log(req.method,req.url)
-    // let products = [], id =null;
-    // let cart = JSON.parse(req.body.cart);
-    // if(!cart) return res.json(products)
-    // for (var i=0; i<DataCue.products.length; i++){
-    //     id = data.products[i].qty = cart[id]
-    //     products.push(data.products[i]);
-    // }
-    // return res.json(products);
-    for (var i=0; i<req.body.cart.length; i++){
-        let order = new Order(req.body);
-        order.buyer=user;	
+    let order = new Order(req.body);
+        order.order_date=Date.now();	
+        order.buyer=user;
 	    order.save()
         .then(resp => {
             //user=client._id
@@ -126,11 +118,10 @@ exports.place_order = function(req, res){
             console.log(resp);
         })
         .catch(err => {
-            res.status(400).send('Placing order failed');
+            res.status(400).send('Adding new order failed');
         });
-    }
-    
+ };
     
         
- };
+
  

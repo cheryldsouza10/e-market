@@ -2,6 +2,7 @@
 //req.params.id
 const Client = require('../models/seller');
 const Product = require('../models/product');
+const Order = require('../models/order');
 
 
 let user="000000000000";
@@ -116,7 +117,7 @@ Client.updateOne({username:req.body.username,pass:req.body.pass, logged:1},
         .then(resp => {
             //user=client._id
             res.status(200).json(resp);
-            console.log(resp);
+            //console.log(resp);
         })
         .catch(err => {
             res.status(400).send('Adding new client failed');
@@ -141,5 +142,24 @@ Client.updateOne({username:req.body.username,pass:req.body.pass, logged:1},
             }
         }
     });
+ }
 
+ //Viewing sellers orders
+ exports.seller_product = function(req, res){
+    Order.find({"seller" : user},{"product": 1, "quantity": 1},function(err, order){
+        if (err) {
+            console.log(err);
+        } else {
+            if(!order){
+                res.status(420).json("No orders for seller")
+                console.log(order);
+            }
+            else
+            {
+            props = res.json(order);
+            console.log(props);
+            
+            }
+        }
+    });
  }
